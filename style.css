@@ -265,3 +265,27 @@ span{
     }
 }
 
+.home-content .center{
+    /*center in the middle */
+    text-align: center;
+}
+
+.spotify-songs {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8rem;
+    background-color: black;
+    flex-wrap: wrap;
+    padding: 0 9%;
+    border-radius:12px;
+    max-width: 1200px;
+    margin: 0 auto;
+    flex-basis: calc(33.33% - 2rem);
+    margin-bottom: 2rem;
+}
+
+.spotify-songs .song {
+    flex-basis: calc(33.33% - 2rem);
+    margin-bottom: 2rem;
+}
