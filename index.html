@@ -1,26 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
-    
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="stylesheet" href="style.css">
     <title>3rr0r</title>
+    <meta property="og:title" content="3rr0r">
+    <meta property="og:description" content="Artificial Intelligence and algorithm training enthusiast, alternative rock, musical artist, and a complete nerd.">
+    <meta property="og:image" content="main.gif">
+    <meta property="og:url" content="https://its3rr0rswrld.github.io/">
+    <meta name="twitter:card" content="summary_large_image">
+    <style>
+        .scroll-indicator {
+            position: absolute;
+            left: 50%;
+            bottom: 20px;
+            transform: translateX(-50%);
+            animation: bounce 1s infinite;
+            cursor: pointer;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .scroll-indicator i {
+            font-size: 24px;
+            color: #ffffff;
+            transition: color 0.3s;
+        }
+
+        .scroll-indicator:hover i {
+            color: #b74b4b; /* Change color on hover */
+        }
+    </style>
 </head>
 <body>
     <header>
         <a href="#" class="logo">3rr0r</a>
-
-        <!-- <nav>
-            <a href="#" class="active"> Home</a>
-            <a href="#" >Services</a>
-            <a href="#" >Skills</a>
-            <a href="#" >Education</a>
-            <a href="#" >Experience</a>
-            <a href="#" >Contact</a>
-        </nav> -->
     </header>
+
     <section class="home">
         <div class="home-img">
             <img src="main.gif" alt="">
@@ -35,24 +60,61 @@
                 <a href="https://www.instagram.com/its3rr0rswrld"><i class="fa-brands fa-instagram"></i></a>
                 <a href="https://www.youtube.com/@3rr0rMusic"><i class="fa-brands fa-youtube"></i></a>
             </div>
-            <!-- <a href="#" class="btn">Hire me</a>
         </div>
-        <img src="arrow.gif" alt="" class="arrow">
     </section>
-    <section class="home">
-        <div class="home-content">
-            <h1 class="center">Check out my music</h1>
-            <br>
-            <div class="spotify-songs">
-                <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/2MvVN6NthPiuDqhpvBEnPn?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-                <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/6p5REg9RWqYCNOxuo4vTvH?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-                <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/2Y1CubT4gJjmz9kYBDwhMP?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-                <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/3dObr8YK4rqwNmwH9AcdX5?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-                <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/76fq3JhS4fC1QDRLviXAXd?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-                <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/38IpZ53xypct4P2KhqWD3F?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-                <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/1fAaJcAksM51czupFFXDib?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-            </div>
+
+    <!-- Scroll Indicator -->
+    <div class="scroll-indicator">
+        <i class="fas fa-chevron-down"></i>
+    </div>
+
+    <section class="github-stats">
+        <h2 class="section-title">GitHub Stats</h2>
+        <div class="stats-card">
+            <iframe src="https://github-readme-stats.vercel.app/api?username=its3rr0rswrld&show_icons=true&bg_color=00000000&text_color=ffffff&icon_color=b74b4b&title_color=b74b4b" frameborder="0"></iframe>
         </div>
-    </section>-->
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <div class="stats-card">
+            <iframe src="https://github-readme-stats.vercel.app/api/top-langs/?username=its3rr0rswrld&layout=compact&bg_color=00000000&text_color=ffffff&icon_color=b74b4b&title_color=b74b4b" frameborder="0"></iframe>
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <section class="projects">
+            <h2 class="section-title">Projects</h2>
+            <div class="project-cards">
+                <div class="project-card">
+                    <i class="fa-brands fa-github project-icon"></i>
+                    <h3 class="project-title">Webshare Generator</h3>
+                    <p class="project-description">Generates fresh proxies from webshare.</p>
+                    <a href="https://github.com/Its3rr0rsWRLD/WebshareGenerator" class="project-link">View on GitHub</a>
+                </div>
+                <div class="project-card">
+                    <i class="fa-brands fa-github project-icon"></i>
+                    <h3 class="project-title">Barium</h3>
+                    <p class="project-description">My attempt at a simple Minecraft AntiCheat.</p>
+                    <a href="https://github.com/Its3rr0rsWRLD/Barium" class="project-link">View on GitHub</a>
+                </div>
+                <div class="project-card">
+                    <i class="fa-brands fa-github project-icon"></i>
+                    <h3 class="project-title">GorillaStats</h3>
+                    <p class="project-description">An old mod for Gorilla Tag to show server statistics</p>
+                    <a href="https://github.com/Its3rr0rsWRLD/GorillaStats" class="project-link">View on GitHub</a>
+                </div>
+            </div>
+        </section>
+    </section>
 </body>
 </html>
