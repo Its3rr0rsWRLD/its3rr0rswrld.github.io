@@ -110,14 +110,22 @@
                     const projectCard = document.createElement('div');
                     projectCard.classList.add('project-card');
         
-                    // Add forked icon if the repo is forked
+                    // Check if the repo is forked and/or archived
                     const forkedIcon = repo.fork ? '<p class="forked-icon"><i class="fa-solid fa-code-branch"></i> Forked</p>' : '';
+                    const projectIcon = repo.archived
+                        ? '<i class="fa-solid fa-archive project-icon"></i> <span></span>'
+                        : '<i class="fa-brands fa-github project-icon"></i>';
+                    
+                    const archivedIcon = repo.archived 
+                        ? '<p class="archived-icon"><i class="fa-solid fa-archive"></i> Archived</p>' 
+                        : '';
         
                     projectCard.innerHTML = `
-                        <i class="fa-brands fa-github project-icon"></i>
+                        ${projectIcon}
                         <h3 class="project-title">${repo.name}</h3>
                         <p class="project-description">${repo.description || 'No description available.'}</p>
                         ${forkedIcon}
+                        ${archivedIcon}
                         <a href="${repo.html_url}" class="project-link">View on GitHub</a>
                     `;
                     projectContainer.appendChild(projectCard);
