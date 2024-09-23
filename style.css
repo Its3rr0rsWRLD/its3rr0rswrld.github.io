@@ -402,6 +402,7 @@ span{
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
+    gap: 2rem; /* Add gap between project cards */
 }
 
 .project-card {
@@ -412,6 +413,7 @@ span{
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     text-align: center;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    margin-bottom: 2rem; /* Add margin at the bottom to separate from the card below */
 }
 
 .project-card:hover {
