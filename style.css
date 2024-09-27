@@ -416,11 +416,6 @@ span{
     margin-bottom: 2rem; /* Add margin at the bottom to separate from the card below */
 }
 
-.project-card:hover {
-    transform: translateY(-1rem);
-    box-shadow: 0 0 25px #b74b4b;
-}
-
 .project-icon {
     font-size: 5rem;
     color: #b74b4b;
@@ -436,6 +431,17 @@ span{
     font-size: 1.6rem;
     margin-bottom: 2rem;
     color: #ddd;
+}
+
+.project-stars {
+    font-size: 1.6rem;
+    color: #ffd700;
+    margin-top: 1rem;
+}
+
+.project-card:hover {
+    transform: translateY(-1rem);
+    box-shadow: 0 0 25px #b74b4b;
 }
 
 .project-link {
@@ -485,4 +491,8 @@ span{
     height: auto;
     border: 0;
     background: #161616;
+}
+
+.project-card.pinned {
+    border: 2px solid #ffd700; /* Gold border for pinned repos */
 }
