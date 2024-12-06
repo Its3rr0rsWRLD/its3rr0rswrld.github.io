@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <title>3rr0r - Donations</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #1a1a1a;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeIn 1s ease-out;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #b74b4b;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.8;
+        }
+
+        .crypto-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .crypto-card {
+            background-color: #2a2a2a;
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: slideUp 0.5s ease-out;
+        }
+
+        .crypto-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(183, 75, 75, 0.2);
+        }
+
+        .crypto-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #b74b4b;
+        }
+
+        .crypto-name {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .wallet-address {
+            background-color: #3a3a3a;
+            padding: 0.5rem;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            word-break: break-all;
+            margin-bottom: 1rem;
+        }
+
+        .copy-btn {
+            background-color: #b74b4b;
+            color: #ffffff;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .copy-btn:hover {
+            background-color: #9e3b3b;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background-color: #b74b4b;
+            color: #ffffff;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background-color: #9e3b3b;
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Portfolio</a>
+    <div class="container">
+        <header>
+            <h1>Support 3rr0r</h1>
+            <p class="subtitle">Your contributions help fuel my projects and creativity!</p>
+        </header>
+        <div id="crypto-grid" class="crypto-grid">
+            <!-- Crypto cards will be dynamically inserted here -->
+        </div>
+    </div>
+
+    <script>
+        const cryptoData = {
+            "btc": "bc1qtnp4m6n52v3hu0v4wh7j5xts8kzuda7lz8qvqe",
+            "eth": "0x60E4dc1aFCbcE6fdCC5280006033F2905c710A34",
+            "xrp": "rBY2sztkWHAFKwD9XCszW5GMLS4vQQFshA",
+            "sol": "HqQMMcHWZg2d7azdLgiGW6cyAcAzFkDEA8JarEdBPFYK",
+            "trx": "TNivAuDNqmE58vTZ4ZmHmdusBqL6QTz27q",
+            "ltc": "LehCAS6RonUNSgEEUKMke6T3aiBfcdVTtZ",
+            "xmr": "44xAMmQQzXfY333aWkmiadMhKAJYTmpw86LP3ze5RxGUQauLLok2Cd9dfPa9miDqfmc7z64beejvQSVKhUEWgiqxQwh4NF7"
+        };
+
+        const cryptoIcons = {
+            "btc": "fab fa-bitcoin",
+            "eth": "fab fa-ethereum",
+            "xrp": "fas fa-coins",
+            "sol": "fas fa-sun",
+            "trx": "fas fa-bolt",
+            "ltc": "fab fa-litecoin",
+            "xmr": "fas fa-user-secret"
+        };
+
+        function createCryptoCard(crypto, address) {
+            const card = document.createElement('div');
+            card.className = 'crypto-card';
+            card.innerHTML = `
+                <i class="${cryptoIcons[crypto]} crypto-icon"></i>
+                <h2 class="crypto-name">${crypto.toUpperCase()}</h2>
+                <p class="wallet-address">${address}</p>
+                <button class="copy-btn" onclick="copyToClipboard('${address}')">Copy Address</button>
+            `;
+            return card;
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Address copied to clipboard!');
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const cryptoGrid = document.getElementById('crypto-grid');
+            
+            Object.entries(cryptoData).forEach(([crypto, address], index) => {
+                const card = createCryptoCard(crypto, address);
+                card.style.animationDelay = `${index * 0.2}s`;
+                cryptoGrid.appendChild(card);
+            });
+        });
+    </script>
+</body>
+</html>
