@@ -27,8 +27,6 @@ export default function RootLayout({
         <div id="glow-container" className="fixed inset-0 pointer-events-none z-50" />
         {children}
         <Toaster />
-        <SpeedInsights />
-        <Analytics />
       </body>
     </html>
   )
