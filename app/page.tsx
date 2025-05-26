@@ -1,32 +1,23 @@
 "use client"
 
-import { useEffect } from "react"
 import { HeroSection } from "@/components/hero-section"
+import { BioSection } from "@/components/bio-section"
 import { MusicSection } from "@/components/music-section"
+import { ContactForm } from "@/components/contact-form"
 import { songData } from "@/data/songs"
 
 export default function Home() {
-  useEffect(() => {
-    const handleMouseMove = (event: MouseEvent) => {
-      const { clientX, clientY } = event
-      const glowContainer = document.getElementById("glow-container")
-      if (glowContainer) {
-        glowContainer.style.setProperty("--x", `${clientX}px`)
-        glowContainer.style.setProperty("--y", `${clientY}px`)
-      }
-    }
-
-    document.addEventListener("mousemove", handleMouseMove)
-
-    return () => {
-      document.removeEventListener("mousemove", handleMouseMove)
-    }
-  }, [])
-
   return (
     <main className="min-h-screen bg-gradient-to-b from-background to-background/90 relative">
       <HeroSection />
+      <BioSection />
       <MusicSection songs={songData.songs} />
+
+      <section id="contact" className="py-20 px-4 relative">
+        <div className="container mx-auto max-w-2xl">
+          <ContactForm />
+        </div>
+      </section>
     </main>
   )
 }

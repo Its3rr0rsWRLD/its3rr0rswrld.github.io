@@ -24,7 +24,18 @@ export function SongCard({ song, index, embedType }: SongCardProps) {
   const [videoId, setVideoId] = useState("")
   const [spotifyId, setSpotifyId] = useState("")
   const [appleMusicId, setAppleMusicId] = useState("")
+  const [isHovered, setIsHovered] = useState(false)
   const previewRef = useRef<HTMLDivElement>(null)
+
+  // Format the release date
+  const formatReleaseDate = (dateString: string) => {
+    const date = new Date(dateString)
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    })
+  }
 
   useEffect(() => {
     // Extract YouTube video ID from URL
@@ -142,18 +153,28 @@ export function SongCard({ song, index, embedType }: SongCardProps) {
     }
   }
 
+  // Determine which neon color to use based on index
+  const neonColors = ["neon-text-pink", "neon-text-blue", "neon-text-purple"]
+  const neonColor = neonColors[index % neonColors.length]
+
   return (
     <>
-      <motion.div variants={item} whileHover={{ y: -5 }} className="h-full">
-        <Card className="border-primary/20 bg-card/50 backdrop-blur-sm overflow-hidden h-full">
+      <motion.div
+        variants={item}
+        whileHover={{ y: -5 }}
+        className="h-full"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        <Card className="border-primary/20 glass overflow-hidden h-full hover:neon-glow transition-all duration-300">
           <CardHeader className="p-4 pb-0">
             <div className="flex justify-between items-start">
-              <Badge variant="outline" className="bg-primary/10 text-primary border-primary/20">
+              <Badge variant="outline" className="bg-primary/10 text-primary border-primary/20 glass-light">
                 {song.genre}
               </Badge>
-              <Badge variant="outline" className="flex items-center gap-1">
+              <Badge variant="outline" className="flex items-center gap-1 glass-light">
                 <Calendar className="h-3 w-3" />
-                {song.year}
+                {formatReleaseDate(song.releaseDate)}
               </Badge>
             </div>
           </CardHeader>
@@ -165,18 +186,23 @@ export function SongCard({ song, index, embedType }: SongCardProps) {
                 fill
                 className="object-cover transition-transform duration-500 group-hover:scale-110"
               />
-              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+              <motion.div
+                className="absolute inset-0 bg-black/40 flex items-center justify-center"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: isHovered ? 1 : 0 }}
+                transition={{ duration: 0.3 }}
+              >
                 <Button
                   variant="outline"
                   size="icon"
-                  className="rounded-full bg-background/20 backdrop-blur-sm border-white/20 text-white hover:bg-white hover:text-primary"
+                  className="rounded-full glass-light border-white/20 text-white hover:bg-white hover:text-primary hover:neon-glow"
                   onClick={() => setShowPreview(true)}
                 >
                   <Play className="h-6 w-6" />
                 </Button>
-              </div>
+              </motion.div>
             </div>
-            <h3 className="font-bold text-lg line-clamp-1">{song.title}</h3>
+            <h3 className={`font-bold text-lg line-clamp-1 ${isHovered ? neonColor : ""}`}>{song.title}</h3>
             <p className="text-muted-foreground text-sm">{song.album}</p>
           </CardContent>
           <CardFooter className="p-4 pt-0 grid grid-cols-3 gap-2">
@@ -188,7 +214,7 @@ export function SongCard({ song, index, embedType }: SongCardProps) {
                   <Button
                     variant="outline"
                     size="sm"
-                    className="w-full justify-center gap-2 hover:bg-primary/10 hover:text-primary transition-colors duration-300"
+                    className="w-full justify-center gap-2 glass-light hover:neon-glow transition-colors duration-300"
                   >
                     <PlatformIcon className="h-4 w-4" />
                     <span className="sr-only">{platform.replace("_", " ")}</span>
@@ -214,13 +240,13 @@ export function SongCard({ song, index, embedType }: SongCardProps) {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
               transition={{ type: "spring", damping: 20 }}
-              className="relative w-full max-w-4xl bg-card rounded-lg overflow-hidden shadow-2xl"
+              className="relative w-full max-w-4xl glass rounded-lg overflow-hidden shadow-2xl neon-border"
             >
               <div className="absolute top-4 right-4 z-10">
                 <Button
                   variant="outline"
                   size="icon"
-                  className="rounded-full bg-black/50 backdrop-blur-sm hover:bg-primary/80"
+                  className="rounded-full glass-light hover:bg-primary/80 hover:neon-glow"
                   onClick={() => setShowPreview(false)}
                 >
                   <X className="h-4 w-4" />
@@ -230,16 +256,16 @@ export function SongCard({ song, index, embedType }: SongCardProps) {
               <div className="aspect-video w-full">{renderEmbed()}</div>
 
               <div className="p-6">
-                <h3 className="text-2xl font-bold mb-2">{song.title}</h3>
+                <h3 className="text-2xl font-bold mb-2 neon-text-pink">{song.title}</h3>
                 <p className="text-muted-foreground mb-4">
-                  {song.album} • {song.year}
+                  {song.album} • {formatReleaseDate(song.releaseDate)}
                 </p>
 
                 <div className="grid grid-cols-3 gap-4">
                   <Link href={song.links.youtube || "#"} target="_blank" rel="noopener noreferrer">
                     <Button
                       variant={embedType === "youtube" ? "default" : "outline"}
-                      className="w-full justify-center gap-2 hover:scale-105 transition-transform"
+                      className="w-full justify-center gap-2 hover:scale-105 transition-transform glass-light hover:neon-glow"
                       disabled={!song.links.youtube}
                     >
                       <Youtube className="h-5 w-5" />
@@ -249,7 +275,7 @@ export function SongCard({ song, index, embedType }: SongCardProps) {
                   <Link href={song.links.apple_music || "#"} target="_blank" rel="noopener noreferrer">
                     <Button
                       variant={embedType === "apple_music" ? "default" : "outline"}
-                      className="w-full justify-center gap-2 hover:scale-105 transition-transform"
+                      className="w-full justify-center gap-2 hover:scale-105 transition-transform glass-light hover:neon-glow"
                       disabled={!song.links.apple_music}
                     >
                       <AppleIcon className="h-5 w-5" />
@@ -259,7 +285,7 @@ export function SongCard({ song, index, embedType }: SongCardProps) {
                   <Link href={song.links.spotify || "#"} target="_blank" rel="noopener noreferrer">
                     <Button
                       variant={embedType === "spotify" ? "default" : "outline"}
-                      className="w-full justify-center gap-2 hover:scale-105 transition-transform"
+                      className="w-full justify-center gap-2 hover:scale-105 transition-transform glass-light hover:neon-glow"
                       disabled={!song.links.spotify}
                     >
                       <Music className="h-5 w-5" />
@@ -275,4 +301,3 @@ export function SongCard({ song, index, embedType }: SongCardProps) {
     </>
   )
 }
-

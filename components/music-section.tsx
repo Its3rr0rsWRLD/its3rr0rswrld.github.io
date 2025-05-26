@@ -1,8 +1,8 @@
 "use client"
 
 import { useState, useRef, useEffect } from "react"
-import { motion, useInView } from "framer-motion"
-import { Music, AppleIcon, Youtube, ArrowDown } from "lucide-react"
+import { motion, useInView, AnimatePresence } from "framer-motion"
+import { Music, AppleIcon, Youtube, ArrowDown, ChevronLeft, ChevronRight } from "lucide-react"
 
 import { SongCard } from "@/components/song-card"
 import { Button } from "@/components/ui/button"
@@ -18,8 +18,15 @@ interface MusicSectionProps {
 export function MusicSection({ songs }: MusicSectionProps) {
   const [sortBy, setSortBy] = useState<string>("newest")
   const [embedType, setEmbedType] = useState<EmbedType>("youtube")
+  const [currentPage, setCurrentPage] = useState(0)
   const ref = useRef<HTMLDivElement>(null)
   const isInView = useInView(ref, { once: true, amount: 0.2 })
+  const carouselRef = useRef<HTMLDivElement>(null)
+
+  // Set YouTube as default on page load
+  useEffect(() => {
+    setEmbedType("youtube")
+  }, [])
 
   // Refs for button elements
   const youtubeButtonRef = useRef<HTMLButtonElement>(null)
@@ -75,14 +82,30 @@ export function MusicSection({ songs }: MusicSectionProps) {
   // Sort songs
   const sortedSongs = [...songs].sort((a, b) => {
     if (sortBy === "newest") {
-      return b.year - a.year
+      // Sort by release date (newest first)
+      return new Date(b.releaseDate).getTime() - new Date(a.releaseDate).getTime()
     } else if (sortBy === "oldest") {
-      return a.year - b.year
+      // Sort by release date (oldest first)
+      return new Date(a.releaseDate).getTime() - new Date(b.releaseDate).getTime()
     } else if (sortBy === "title") {
+      // Sort alphabetically by title
       return a.title.localeCompare(b.title)
     }
     return 0
   })
+
+  // Calculate pages for carousel
+  const songsPerPage = 3
+  const totalPages = Math.ceil(sortedSongs.length / songsPerPage)
+  const currentSongs = sortedSongs.slice(currentPage * songsPerPage, (currentPage + 1) * songsPerPage)
+
+  const nextPage = () => {
+    setCurrentPage((prev) => (prev === totalPages - 1 ? 0 : prev + 1))
+  }
+
+  const prevPage = () => {
+    setCurrentPage((prev) => (prev === 0 ? totalPages - 1 : prev - 1))
+  }
 
   const container = {
     hidden: { opacity: 0 },
@@ -95,18 +118,18 @@ export function MusicSection({ songs }: MusicSectionProps) {
   }
 
   return (
-    <section id="music-section" className="py-20 px-4" ref={ref}>
-      <div className="container mx-auto">
+    <section id="music-section" className="py-20 px-4 relative overflow-hidden" ref={ref}>
+      <div className="container mx-auto relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.6 }}
           className="text-center mb-8"
         >
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 relative inline-block">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 relative inline-block glitch" data-text="Discography">
             Discography
             <motion.span
-              className="absolute -bottom-2 left-0 w-full h-1 bg-primary"
+              className="absolute -bottom-2 left-0 w-full h-1 bg-primary neon-glow"
               initial={{ width: 0 }}
               animate={isInView ? { width: "100%" } : { width: 0 }}
               transition={{ duration: 0.8, delay: 0.3 }}
@@ -128,10 +151,10 @@ export function MusicSection({ songs }: MusicSectionProps) {
               <ArrowDown className="h-3 w-3 animate-bounce" />
             </div>
 
-            <div className="bg-secondary/30 backdrop-blur-sm p-1 rounded-lg inline-flex relative">
+            <div className="glass p-1 rounded-lg inline-flex relative">
               {/* Sliding background */}
               <motion.div
-                className="absolute top-1 bottom-1 bg-primary/20 rounded-md z-0"
+                className="absolute top-1 bottom-1 bg-primary/20 rounded-md z-0 neon-glow"
                 initial={false}
                 animate={{
                   width: sliderStyle.width,
@@ -145,7 +168,7 @@ export function MusicSection({ songs }: MusicSectionProps) {
                 variant="ghost"
                 size="sm"
                 onClick={() => setEmbedType("youtube")}
-                className={`flex items-center gap-2 z-10 relative ${embedType === "youtube" ? "text-primary" : ""}`}
+                className={`flex items-center gap-2 z-10 relative hover:text-primary hover:bg-primary/10 ${embedType === "youtube" ? "neon-text-pink" : ""}`}
               >
                 <Youtube className="h-4 w-4" />
                 <span className="hidden sm:inline">YouTube</span>
@@ -155,7 +178,7 @@ export function MusicSection({ songs }: MusicSectionProps) {
                 variant="ghost"
                 size="sm"
                 onClick={() => setEmbedType("apple_music")}
-                className={`flex items-center gap-2 z-10 relative ${embedType === "apple_music" ? "text-primary" : ""}`}
+                className={`flex items-center gap-2 z-10 relative hover:text-primary hover:bg-primary/10 ${embedType === "apple_music" ? "neon-text-blue" : ""}`}
               >
                 <AppleIcon className="h-4 w-4" />
                 <span className="hidden sm:inline">Apple Music</span>
@@ -165,7 +188,7 @@ export function MusicSection({ songs }: MusicSectionProps) {
                 variant="ghost"
                 size="sm"
                 onClick={() => setEmbedType("spotify")}
-                className={`flex items-center gap-2 z-10 relative ${embedType === "spotify" ? "text-primary" : ""}`}
+                className={`flex items-center gap-2 z-10 relative hover:text-primary hover:bg-primary/10 ${embedType === "spotify" ? "neon-text-purple" : ""}`}
               >
                 <Music className="h-4 w-4" />
                 <span className="hidden sm:inline">Spotify</span>
@@ -183,10 +206,10 @@ export function MusicSection({ songs }: MusicSectionProps) {
           >
             <span className="text-sm font-medium">Sort by:</span>
             <Select value={sortBy} onValueChange={setSortBy}>
-              <SelectTrigger className="w-[180px]">
+              <SelectTrigger className="w-[180px] glass-light">
                 <SelectValue placeholder="Sort by" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="glass">
                 <SelectItem value="newest">Newest First</SelectItem>
                 <SelectItem value="oldest">Oldest First</SelectItem>
                 <SelectItem value="title">Title (A-Z)</SelectItem>
@@ -195,18 +218,53 @@ export function MusicSection({ songs }: MusicSectionProps) {
           </motion.div>
         </div>
 
-        <motion.div
-          variants={container}
-          initial="hidden"
-          animate={isInView ? "show" : "hidden"}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-        >
-          {sortedSongs.map((song, index) => (
-            <SongCard key={`${song.title}-${index}`} song={song} index={index} embedType={embedType} />
+        {/* Carousel navigation */}
+        <div className="relative">
+          <button
+            onClick={prevPage}
+            className="absolute left-0 top-1/2 -translate-y-1/2 glass-light p-2 rounded-full hover:neon-glow z-10 md:-left-12"
+          >
+            <ChevronLeft className="h-5 w-5" />
+          </button>
+
+          <button
+            onClick={nextPage}
+            className="absolute right-0 top-1/2 -translate-y-1/2 glass-light p-2 rounded-full hover:neon-glow z-10 md:-right-12"
+          >
+            <ChevronRight className="h-5 w-5" />
+          </button>
+
+          <div ref={carouselRef} className="overflow-hidden">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentPage}
+                initial={{ opacity: 0, x: 100 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -100 }}
+                transition={{ duration: 0.5 }}
+                className="grid grid-cols-1 md:grid-cols-3 gap-6"
+              >
+                {currentSongs.map((song, index) => (
+                  <SongCard key={`${song.title}-${index}`} song={song} index={index} embedType={embedType} />
+                ))}
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        </div>
+
+        {/* Pagination dots */}
+        <div className="flex justify-center mt-8 gap-2">
+          {Array.from({ length: totalPages }).map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentPage(index)}
+              className={`w-3 h-3 rounded-full transition-all ${
+                index === currentPage ? "bg-primary neon-glow" : "bg-gray-600"
+              }`}
+            />
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   )
 }
-

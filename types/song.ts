@@ -3,6 +3,7 @@ export interface Song {
   artist: string
   album: string
   year: number
+  releaseDate: string // Added release date field
   genre: string
   art: string
   links: {
