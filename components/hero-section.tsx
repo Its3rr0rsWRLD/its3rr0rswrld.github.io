@@ -148,7 +148,7 @@ export function HeroSection() {
     { href: "https://www.instagram.com/its3rr0rswrld", icon: Instagram, label: "Instagram", color: "pink" as const },
     { href: "https://youtube.com/@Its3rr0rsWRLD", icon: Youtube, label: "YouTube", color: "pink" as const },
     { href: "https://mastodon.social/@Its3rr0rsWRLD", icon: Mastodon, label: "Mastodon", color: "purple" as const },
-    { href: "https://soundcloud.com/3rr0rmusic", icon: Headphones, label: "SoundCloud", color: "blue" as const },
+    { href: "https://soundcloud.com/its3rr0rswrld", icon: Headphones, label: "SoundCloud", color: "blue" as const },
   ]
 
   // Determine neon color class based on current text
